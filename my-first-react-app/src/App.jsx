@@ -50,6 +50,8 @@ function App() {
             inputPlaceholders={["Name", "Tel.", "Email"]}
             rows={generalInfo}
             setRows={setGeneralInfo}
+            hideAddButton={true}
+            hideDeleteButton={true}
           />
           <SectionComponent
             headerText="Education"
