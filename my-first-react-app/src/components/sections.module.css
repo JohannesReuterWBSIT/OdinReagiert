@@ -30,8 +30,8 @@
 }
 
 .addButton {
-  background-color: #007bff;
-  color: white;
+  background-color: #0c4f97;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
@@ -39,5 +39,5 @@
 }
 
 .addButton:hover {
-  background-color: #0056b3;
+  background-color: #a0a0a0;
 }

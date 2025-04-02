@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface RowData {
   input1: string;
@@ -13,6 +13,13 @@ interface SectionComponentProps {
   inputRowStyle?: React.CSSProperties;
   inputStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
+  deleteButtonStyle?: React.CSSProperties;
+  headerText?: string;
+  inputPlaceholders?: [string, string, string];
+  hideAddButton?: boolean;
+  hideDeleteButton?: boolean;
+  rows: RowData[];
+  setRows: React.Dispatch<React.SetStateAction<RowData[]>>;
 }
 
 export const SectionComponent: React.FC<SectionComponentProps> = ({
@@ -22,23 +29,27 @@ export const SectionComponent: React.FC<SectionComponentProps> = ({
   inputRowStyle,
   inputStyle,
   buttonStyle,
+  deleteButtonStyle,
+  headerText = "Section Header",
+  inputPlaceholders = ["Input 1", "Input 2", "Input 3"],
+  hideAddButton = false,
+  hideDeleteButton = false,
+  rows,
+  setRows,
 }) => {
-  const [rows, setRows] = useState<RowData[]>([
-    {
-      input1: "",
-      input2: "",
-      input3: "",
-    },
-  ]);
-
   const addRow = () => {
     setRows([...rows, { input1: "", input2: "", input3: "" }]);
+  };
+
+  const deleteRow = (index: number) => {
+    const newRows = rows.filter((_, i) => i !== index);
+    setRows(newRows);
   };
 
   return (
     <div style={containerStyle}>
       <hr style={lineStyle} />
-      <h2 style={headerStyle}>Section Header</h2>
+      <h2 style={headerStyle}>{headerText}</h2>
 
       {rows.map((row, index) => (
         <div key={index} style={inputRowStyle}>
@@ -50,7 +61,7 @@ export const SectionComponent: React.FC<SectionComponentProps> = ({
               newRows[index].input1 = e.target.value;
               setRows(newRows);
             }}
-            placeholder="Input 1"
+            placeholder={inputPlaceholders[0]}
             style={inputStyle}
           />
           <input
@@ -61,7 +72,7 @@ export const SectionComponent: React.FC<SectionComponentProps> = ({
               newRows[index].input2 = e.target.value;
               setRows(newRows);
             }}
-            placeholder="Input 2"
+            placeholder={inputPlaceholders[1]}
             style={inputStyle}
           />
           <input
@@ -72,15 +83,22 @@ export const SectionComponent: React.FC<SectionComponentProps> = ({
               newRows[index].input3 = e.target.value;
               setRows(newRows);
             }}
-            placeholder="Input 3"
+            placeholder={inputPlaceholders[2]}
             style={inputStyle}
           />
+          {!hideDeleteButton && (
+            <button style={deleteButtonStyle} onClick={() => deleteRow(index)}>
+              Delete
+            </button>
+          )}
         </div>
       ))}
 
-      <button style={buttonStyle} onClick={addRow}>
-        Add Row
-      </button>
+      {!hideAddButton && (
+        <button style={buttonStyle} onClick={addRow}>
+          Add Row
+        </button>
+      )}
     </div>
   );
 };
